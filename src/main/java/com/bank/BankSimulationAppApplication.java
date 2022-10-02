@@ -18,6 +18,9 @@ public class BankSimulationAppApplication {
 
         ApplicationContext container = SpringApplication.run(BankSimulationAppApplication.class, args);
 
+
+        /*
+
         //get account and transaction service beans
         AccountService accountService = container.getBean(AccountService.class);
         TransactionService transactionService = container.getBean(TransactionService.class);
@@ -40,7 +43,7 @@ public class BankSimulationAppApplication {
 //
 //        accountService.listAllAccount().forEach(System.out::println);
 
-
+*/
 
     }
 

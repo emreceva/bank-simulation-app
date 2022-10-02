@@ -13,4 +13,6 @@ public interface TransactionService {
                              Date creationDate,String message);
 
     List<Transaction> findAllTransaction();
+
+    List<Transaction> lastTransactionsList();
 }

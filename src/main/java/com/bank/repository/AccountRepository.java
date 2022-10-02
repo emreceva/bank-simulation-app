@@ -10,6 +10,7 @@ import java.util.UUID;
 
 @Component
 public class AccountRepository {
+
     public static List<Account> accountList = new ArrayList<>();
 
     public Account save(Account account){
