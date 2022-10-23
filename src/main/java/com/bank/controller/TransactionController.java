@@ -1,12 +1,21 @@
 package com.bank.controller;
 
+import com.bank.model.Account;
 import com.bank.model.Transaction;
 import com.bank.service.AccountService;
 import com.bank.service.TransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import javax.validation.Valid;
+import java.util.Date;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Controller
@@ -27,6 +36,46 @@ public class TransactionController {
 
         return "transaction/make-transfer";
     }
+
+    //TASK
+    //write a post method, that takes transaction object from the method above,
+    //complete the make transfer and return the same page.
+    @PostMapping("/transfer")
+    public String postMakeTransfer(@Valid @ModelAttribute("transaction") Transaction transaction, BindingResult bindingResult, Model model){
+
+        if(bindingResult.hasErrors()){
+
+            model.addAttribute("accounts",accountService.listAllAccount());
+            return "transaction/make-transfer";
+        }
+
+
+        //I have UUID but I need to provide Account to make transfer method.
+        Account sender = accountService.retrieveById(transaction.getSender());
+        Account receiver = accountService.retrieveById(transaction.getReceiver());
+
+        transactionService.makeTransfer(sender,receiver,transaction.getAmount(),new Date(),transaction.getMessage());
+
+        return "redirect:/make-transfer";
+    }
+
+    //write a method, that gets the id from index.html and print on the console.
+    //(work on index.html and here)
+    @GetMapping("/transaction/{id}")
+    public String getTransactionList(@PathVariable("id") UUID id, Model model){
+
+        System.out.println(id);
+        //get the list of transactions based on id and return as a model attribute
+        //TASK - Complete the method (service &repository)
+        model.addAttribute("transactions",transactionService.findTransactionListById(id));
+
+
+
+
+        return "transaction/transactions";
+
+    }
+
 
 }
 
